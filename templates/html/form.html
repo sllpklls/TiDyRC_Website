@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form</title>
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+
+            // Lấy dữ liệu từ form
+            const linkImage = document.getElementById("linkImage").value;
+            const titleItem = document.getElementById("titleItem").value;
+            const itemPrice = document.getElementById("itemPrice").value;
+
+            // Tạo object JSON từ dữ liệu form
+            const data = { 
+                "linkImage": linkImage, 
+                "titleItem": titleItem, 
+                "itemPrice": itemPrice 
+            };
+
+            // Gửi dữ liệu tới server thông qua AJAX (Fetch API)
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert("Dữ liệu đã được lưu!");
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Form Nhập Liệu</h1>
+    <form id="myForm" onsubmit="submitForm(event)">
+        <label for="linkImage">Link ảnh:</label><br>
+        <input type="text" id="linkImage" name="linkImage"><br><br>
+
+        <label for="titleItem">Title:</label><br>
+        <input type="text" id="titleItem" name="titleItem"><br><br>
+
+        <label for="itemPrice">Price:</label><br>
+        <input type="number" id="itemPrice" name="itemPrice"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
